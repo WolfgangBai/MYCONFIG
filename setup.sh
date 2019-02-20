@@ -18,8 +18,8 @@ echo "Old config was in $BACKUPNAME"
 #ln -sf $THISDIR/_testbash.py ~/.testbash.py
 
 # Git
-#backup ~/.gitconfig
-#ln -sf $THISDIR/_gitconfig ~/.gitconfig
+backup ~/.gitconfig
+ln -sf $THISDIR/_gitconfig ~/.gitconfig
 
 # tmux
 backup ~/.tmux.conf
