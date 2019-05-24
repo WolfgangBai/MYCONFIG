@@ -114,6 +114,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'ervandew/supertab'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'vim-scripts/winmanager'
+Plugin 'Yggdroot/LeaderF'
 " 插件列表结束
 call vundle#end()
 
