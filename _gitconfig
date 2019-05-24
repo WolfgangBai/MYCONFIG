@@ -1,6 +1,6 @@
 [user]
-	email = 928991159@qq.com
-	name = WolfgangBai
+	email = chenggang7@staff.sina.com.cn
+	name = chenggang7
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %C(bold blue)<%an>%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit
     co = checkout
