@@ -14,7 +14,7 @@ echo "Old config was in $BACKUPNAME"
 
 # Bash
 #backup ~/.bashrc
-#ln -sf $THISDIR/_bashrc ~/.bashrc
+ln -sf $THISDIR/_bashrc ~/.bashrc
 #ln -sf $THISDIR/_testbash.py ~/.testbash.py
 
 # Git

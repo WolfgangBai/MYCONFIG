@@ -1,0 +1,135 @@
+export PATH="/software-xyj/bin:/software-xyj/sbin:$PATH"
+export JAVA_HOME=/install-xyj/jdk1.8.0_141
+
+
+
+
+
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+# HISTSIZE=1000
+# HISTFILESIZE=2000
+export HISTFILESIZE=999999999
+export HISTSIZE=88888888
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# export HISTFILE=~/.bash_eternal_history
+# PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto -F'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alFh'
+alias la='ls -A'
+alias l='ls -CF'
+alias vi='vim'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# show git branch
+parse_git_branch() {
+git branch 2> /dev/null |sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+git_info() {
+if [ -n "$(parse_git_branch)" ]; then
+	info=$(parse_git_branch);
+	echo "[$info] ";
+fi
+}
+OLDPS1=$PS1
+show_branch() {
+PS1=$OLDPS1
+PS1="${PS1}\[\033[0;32m\]$(git_info)\[\033[00m\]"
+}
+PROMPT_COMMAND="show_branch"
+
+# Do not use rm
+alias rm='fun() { 
+	newDir=~/work/.rm/`date +%Y.%m.%d.%H:%M:%S`
+	[ -d $newDir ] || mkdir -p $newDir
+	sudo mv "$@" $newDir
+	}; fun '
+
+# Show tips if $? != 0
+show_ret() {
+	if [ $? != 0 ]
+	then
+	echo -e "\033[31;49;1m[BASH] \$? is not 0\033[39;49;0m"
+	fi
+}
+PROMPT_COMMAND="show_ret; $PROMPT_COMMAND"
+
+# Alias
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+alias ta='tmux attach -t work || tmux new -s work'
+alias tb='tmux attach -t work2 || tmux new -s work2'
+alias sl='ls -CF'
+alias s='ls -CF'
+alias testbash='python ~/.testbash.py'
+alias Open=gnome-open
+alias du='du -h'
+# alias cs='cscope -Rbq'
+alias cs='find -regex ".*\.\(c\|h\|cpp\|cxx\|hh\|hpp\|hxx\|cc\)$" | cscope -i- -b -q'
+alias c='clear'
+alias curla="curl -H 'Proxy-Authorization: EDGE 2147483646:d5NCq9Pm15'"
+alias mycurl="curl -svo /dev/null "
+alias cc="grep -E 'inet_ntoa|inet_addr|inet_aton|gethostby|sockaddr_in|inet_makeaddr|inet_netof|inet_lnaof|inet_network|getservby|AF_INET' -r "
+#export PATH=/opt/rh/devtoolset-3/root/usr/bin:$PATH
+
+alias undelay='fun()
+    {
+        save=`cat /tmp/tcdelay.save`
+        sudo tc qdisc del dev lo root netem delay $save
+    }; fun'
+alias delay='fun()
+    {
+        undelay
+        sudo tc qdisc add dev lo root netem delay $1
+        echo $1 > /tmp/tcdelay.save
+    }; fun'
