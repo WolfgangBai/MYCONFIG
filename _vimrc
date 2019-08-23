@@ -157,4 +157,6 @@ let mapleader=","
 " ----------
 " vim-fswitch
 " ----------
+au! BufEnter *.cc  let b:fswitchdst = 'h,hpp'
+au! BufEnter *.h  let b:fswitchdst = 'cc,cpp,c'
 map fs :FSHere<cr>
