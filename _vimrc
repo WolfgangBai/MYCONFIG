@@ -43,11 +43,11 @@ set shiftwidth=4
 set softtabstop=4
 
 " 自动添加配对符号
-"inoremap ( ()<LEFT>
-"inoremap { {}<LEFT>
-"inoremap [ []<LEFT>
-"inoremap " ""<LEFT>
-"inoremap ' ''<LEFT>
+inoremap ( ()<LEFT>
+inoremap { {}<LEFT>
+inoremap [ []<LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
 
 " Using cscope easily
 if has ("cscope")
@@ -157,6 +157,6 @@ let mapleader=","
 " ----------
 " vim-fswitch
 " ----------
-au! BufEnter *.cc  let b:fswitchdst = 'h,hpp'
+au! BufEnter *.cc  let b:fswitchdst = 'h,hh,hpp'
 au! BufEnter *.h  let b:fswitchdst = 'cc,cpp,c'
 map fs :FSHere<cr>
