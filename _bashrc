@@ -1,1 +1,2 @@
 alias cs='find -regex ".*\.\(c\|h\|in\|cpp\|cxx\|hh\|hpp\|hxx\|cc\)$" | cscope -i- -b -q'
+alias grep='grep --color=auto'
